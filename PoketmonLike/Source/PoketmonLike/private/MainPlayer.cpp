@@ -48,5 +48,29 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis(TEXT("UpDown"), this, &AMainPlayer::UpDown);
+	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &AMainPlayer::LeftRight);
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AMainPlayer::Turn);
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AMainPlayer::LookUp);
+}
+
+void AMainPlayer::UpDown(float NewAxisValue)
+{
+	AddMovementInput(FRotationMatrix(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)).GetUnitAxis(EAxis::X), NewAxisValue);
+}
+
+void AMainPlayer::LeftRight(float NewAxisValue)
+{
+	AddMovementInput(FRotationMatrix(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)).GetUnitAxis(EAxis::Y), NewAxisValue);
+}
+
+void AMainPlayer::LookUp(float NewAxisValue)
+{
+	AddControllerPitchInput(NewAxisValue);
+}
+
+void AMainPlayer::Turn(float NewAxisValue)
+{
+	AddControllerYawInput(NewAxisValue);
 }
 

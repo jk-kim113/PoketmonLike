@@ -31,4 +31,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	class UCameraComponent* tpsCamComp;
+
+private:
+	void UpDown(float NewAxisValue);
+	void LeftRight(float NewAxisValue);
+	void LookUp(float NewAxisValue);
+	void Turn(float NewAxisValue);
 };

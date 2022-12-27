@@ -2,4 +2,9 @@
 
 
 #include "PoketmonLikeGameModeBase.h"
+#include "MainPlayer.h"
 
+APoketmonLikeGameModeBase::APoketmonLikeGameModeBase()
+{
+	DefaultPawnClass = AMainPlayer::StaticClass();
+}

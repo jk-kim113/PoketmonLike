@@ -14,4 +14,6 @@ class POKETMONLIKE_API APoketmonLikeGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	APoketmonLikeGameModeBase();
 };
