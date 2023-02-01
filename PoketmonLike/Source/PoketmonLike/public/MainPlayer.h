@@ -32,9 +32,15 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	class UCameraComponent* tpsCamComp;
 
+	UPROPERTY(EditAnywhere, Category = PlayerSetting)
+	float walkSpeed = 300;
+	UPROPERTY(EditAnywhere, Category = PlayerSetting)
+	float runSpeed = 600;
+
 private:
 	void UpDown(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
 	void LookUp(float NewAxisValue);
 	void Turn(float NewAxisValue);
+	void InputRun();
 };
