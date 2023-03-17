@@ -30,9 +30,20 @@ void ABattleMap::BeginPlay()
 	
 	FindSpawnPoints();
 
-	if (spawnPoints[0])
+	for (int n = 0; n < spawnPoints.Num(); n++)
 	{
-		auto wildmon = GetWorld()->SpawnActor<AWildMon>(spawnPoints[0]->GetActorLocation(), FRotator::ZeroRotator);
+		if (spawnPoints[n])
+		{
+			int num = FMath::RandRange(2, 4);
+
+			for (int m = 0; m < num; m++)
+			{
+				float randX = FMath::RandRange(-800.0f, 800.0f);
+				float randY = FMath::RandRange(-800.0f, 800.0f);
+				auto wildmon = GetWorld()->SpawnActor<AWildMon>(spawnPoints[n]->GetActorLocation() + FVector(randX, randY, 0), FRotator::ZeroRotator);
+				wildmon->SetWildMonInfor(n + 1);
+			}
+		}
 	}
 }
 

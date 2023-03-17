@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "MainGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "MainPlayer.h"
 
 // Sets default values
 AWildMon::AWildMon()
@@ -14,7 +15,7 @@ AWildMon::AWildMon()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	fsm = CreateDefaultSubobject<UWildMonFSM>(TEXT("FSM"));
+	//fsm = CreateDefaultSubobject<UWildMonFSM>(TEXT("FSM"));
 
 	AIControllerClass = AWildMonController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
@@ -52,6 +53,7 @@ void AWildMon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AWildMon::SetWildMonInfor(int32 index)
 {
+	MyWildMonIndex = index;
 	auto MainGameInstance = Cast<UMainGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	
 	if (nullptr != MainGameInstance)
@@ -72,7 +74,20 @@ void AWildMon::SetWildMonInfor(int32 index)
 
 void AWildMon::OnCharacterOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("sdjkfdklfs"));
+	if (!IsBattle)
+	{
+		IsBattle = true;
+		AMainPlayer* mp = Cast<AMainPlayer>(OtherActor);
+		if (mp && mp->GetController()->IsPlayerController())
+		{
+			auto controller = Cast<AWildMonController>(GetController());
+			if (controller)
+			{
+				controller->RunBT(false);
+				mp->RunBattleState(true);
+			}
+		}
+	}
 }
 
 void AWildMon::OnMeshLoadCompleted()
@@ -83,6 +98,39 @@ void AWildMon::OnMeshLoadCompleted()
 	{
 		GetMesh()->SetSkeletalMesh(AssetLoaded);
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0, 0, -90), FRotator(0, -90, 0));
+
+		switch (MyWildMonIndex)
+		{
+		case 1:
+			GetMesh()->SetRelativeScale3D(1.3f * FVector::OneVector);
+			break;
+		case 2:
+			GetMesh()->SetRelativeScale3D(0.7f * FVector::OneVector);
+			break;
+		case 3:
+			GetMesh()->SetRelativeScale3D(0.8f * FVector::OneVector);
+			break;
+		case 4:
+			GetMesh()->SetRelativeScale3D(0.5f * FVector::OneVector);
+			break;
+		case 5:
+			GetMesh()->SetRelativeScale3D(0.3f * FVector::OneVector);
+			break;
+		case 6:
+			GetMesh()->SetRelativeScale3D(0.5f * FVector::OneVector);
+			break;
+		case 7:
+			GetMesh()->SetRelativeScale3D(0.7f * FVector::OneVector);
+			break;
+		case 8:
+			GetMesh()->SetRelativeScale3D(0.5f * FVector::OneVector); 
+			break;
+		case 9:
+			GetMesh()->SetRelativeScale3D(0.7f * FVector::OneVector);
+			break;
+		default:
+			break;
+		}
 	}
 }
 

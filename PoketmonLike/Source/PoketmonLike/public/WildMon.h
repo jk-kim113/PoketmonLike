@@ -43,4 +43,7 @@ private:
 
 	FSoftObjectPath WildMonAnimToLoad = FSoftObjectPath(nullptr);
 	TAssetPtr<class UClass> WildMonAnim;
+
+	int MyWildMonIndex;
+	bool IsBattle = false;
 };

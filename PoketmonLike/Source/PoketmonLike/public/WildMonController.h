@@ -21,6 +21,8 @@ public:
 	static const FName HomePosKey;
 	static const FName PatrolPosKey;
 
+	void RunBT(bool isActive);
+
 private:
 	UPROPERTY()
 	class UBehaviorTree* BTAsset;

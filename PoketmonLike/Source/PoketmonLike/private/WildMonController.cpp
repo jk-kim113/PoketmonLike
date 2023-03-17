@@ -5,6 +5,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardData.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "WildMon.h"
 
 const FName AWildMonController::HomePosKey(TEXT("HomePos"));
 const FName AWildMonController::PatrolPosKey(TEXT("PatrolPos"));
@@ -27,13 +28,26 @@ AWildMonController::AWildMonController()
 void AWildMonController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-
+	
 	if (UseBlackboard(BBAsset, Blackboard))
 	{
 		Blackboard->SetValueAsVector(HomePosKey, GetPawn()->GetActorLocation());
+		
+		RunBT(true);
+	}
+}
+
+void AWildMonController::RunBT(bool isActive)
+{
+	if (isActive)
+	{
 		if (!RunBehaviorTree(BTAsset))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("!!!!"));
 		}
+	}
+	else
+	{
+		BrainComponent->StopLogic(TEXT("Battle"));
 	}
 }

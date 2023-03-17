@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "MainPlayerController.h"
 
 // Sets default values
 AMainPlayer::AMainPlayer()
@@ -55,6 +56,7 @@ void AMainPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	MainPlayerController = Cast<AMainPlayerController>(GetController());
 }
 
 // Called every frame
@@ -75,6 +77,19 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AMainPlayer::LookUp);
 	PlayerInputComponent->BindAction(TEXT("Run"), IE_Pressed, this, &AMainPlayer::InputRun);
 	PlayerInputComponent->BindAction(TEXT("Run"), IE_Released, this, &AMainPlayer::InputRun);
+}
+
+void AMainPlayer::RunBattleState(bool IsBattle)
+{
+	MainPlayerController->RunBattleState(IsBattle);
+	if (IsBattle)
+	{
+		
+	}
+	else
+	{
+
+	}
 }
 
 void AMainPlayer::UpDown(float NewAxisValue)
